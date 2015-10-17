@@ -1,0 +1,225 @@
+BaseBall batting Data Analysis by Subha Radhakrishnan
+========================================================
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+# Load all of the packages that you end up using
+# in your analysis in this code chunk.
+
+# Notice that the parameter "echo" was set to FALSE for this code chunk.
+# This prevents the code from displaying in the knitted HTML output.
+# You should set echo=FALSE for all code chunks in your file.
+
+library(ggplot2)
+library(GGally)
+
+```
+
+As part of this exercise, I am analyzing the details of baseball players and their batting averages. The sample data consists of 1157 records with below details
+
+.  Name
+
+.	Handedness
+
+.	Average
+
+.	Height
+
+.	Weight
+
+.	HR (Home Runs)
+
+In my analysis I created multiple graphs to represent the details like 
+distribution ,relationship of the above parameters.
+Graph 1: Distribution by handedness
+
+
+
+```{r echo=FALSE, warning=FALSE, fig.width=6,fig.height=3 }
+
+nba <- read.csv("C:/Users/307009747/Desktop/udacity/Visualization/baseball.csv")
+# Default output.
+
+
+library(scales)
+
+ggplot(data= nba, aes(x=as.factor(nba$handedness),
+        fill = nba$handedness)) +
+    geom_histogram(aes(y=..count../sum(..count..))) +
+   theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=10,face="bold"))+
+   xlab("handedness") + ylab("Percentage") + 
+  scale_y_continuous(labels = percent)+
+   scale_fill_discrete(name = "handedness by color")+
+  ggtitle('Histogram of Handedness') +
+  theme(plot.title = element_text(size = 12,colour="Dark blue"))
+
+
+
+```
+
+From the above graph it shows that out of 1157 players the majority (64%) of players are right handed.27% of them are left-handed and remaining are 9% are both.
+
+
+```{r  echo=FALSE, warning=FALSE ,fig.height=5}
+
+ggpairs(nba[, 2:6], lower=list(continuous="smooth", params=c(colour="blue")),
+  diag=list(continuous="bar", params=c(colour="blue")), 
+  upper=list(params=list(corSize=3)), axisLabels='show')
+```
+
+With this exercise I am going to find out the individual performance of a baseball player and how the different parameters are influencing the same.
+Individual performance can be assessed by checking the batting average.
+
+From the corelation graph:
+
+
+Height vas Batting Average: -0.374
+
+There seems to be slight correlation snce the value is lesser than -0.3 which is in the ideal range (>0.3 and less than -0.3)
+
+```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+  
+
+ggplot(data = nba, 
+       aes(y = avg, x = height, color = factor(handedness))) +
+   geom_point(alpha = 1/2, position = position_jitter(h = 0), size = 4) +
+     coord_cartesian(ylim=c(0, 0.330
+                          ), xlim=c(65,75)) +
+   scale_color_brewer(type='qual') +
+   xlab('Height') +
+   ylab('Batting Average') + 
+   theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=10,face="bold"))+
+   ggtitle('Batting Average vs. Height correlation by Handedness') +
+  theme(plot.title = element_text(size = 12,colour="Dark blue"))
+```
+
+From the above graph the correlation factor between height and Batting average is -0.374. Even though this is within the acceptable range, in reality we see there is no linear relationship. This could be due to the fact that a small change in the height need not have any impact on the batting average.Since no linear relationship in this , I can exclude the relationship to reach  any valid conclusions. 
+
+Weight vs Batting Average : -0.225
+The corelation value is insignificant here.
+
+
+I took the other parameter Batting Average vs Home Runs 
+
+From the correlation factor there seems to be no significant relation between them. The graph shows the same.
+
+```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+ mean(nba$avg)
+
+ggplot(data = subset(nba, avg > 0.186), 
+       aes(y = avg, x = HR, color = factor(handedness))) +
+   geom_point(alpha = 1/2, position = position_jitter(h = 0), size = 5) +
+  facet_wrap(~handedness, scales="free")+
+   coord_cartesian(ylim=c(0.186, 0.330
+                          ), xlim=c(0,565)) +
+   scale_color_brewer(type='qual') +
+   xlab('Home Runs') +
+   ylab('Batting Average') + 
+   theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=10,face="bold"))+
+   ggtitle('Batting Average vs. Home Runs correlation by Handedness') +
+  theme(plot.title = element_text(size = 12,colour="Dark blue"))
+
+```
+
+I have considered the people who are above the average (The average of batting average for total population is 0.186).From the graph it is clear that for the majority of high averagers the home runs scored is less . This is very evident for L and B but for R  there are some insatnces of high average when the home run is more.This is not a conclusive evidense to say that there is a definite linear relationship between Home Runs and Batting average.
+
+The other relationship that I want to look at next is
+
+Distribution of Zero batting averages vs handedness
+
+
+```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+
+ggplot(data = nba, 
+       aes(x = avg))  + 
+  xlim(0,0.01) +
+   geom_histogram()+
+  facet_wrap(~handedness) +
+  scale_color_brewer() + ggtitle('Distribution of Batting Averages') +
+  theme(plot.title = element_text(size = 12,colour="Dark blue"))
+
+
+
+ 
+```
+
+From the graph, the count of the right handers is more than have 0 average left-handers and Both handers.
+
+In baseball Batting average is calculated using:
+Batting Average (BV) = ( Number of hits ) / ( Number of official at bats ) 
+Since these players have 0 average that means they have not had any "hits" which could have resulted in an "out" even though the batters hit the ball all the 
+time.
+
+These 0 average people might also be the pitchers who rarely get a chance to 
+play.In Major League Baseball, the designated hitter is a hitter who does not play a position, but instead fills in the batting order for the pitcher.Hence the 0 batting averages might be for pitchers.
+
+Their average doesnot have any significant role as they do not even bat.
+In my analysis since I am interested in knowing the batting average of an individual to analyse their perfroamnce and to which category of handedness they belong. I am interested in knowing actual hit on the bat and hence excluding the 0 batters from my data.
+
+Handedness vs Batting Average 
+
+```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+
+
+ggplot(subset(nba, avg > 0), aes(x = handedness, y = avg,fill=handedness)) +
+  geom_boxplot(outlier.size=NA)+facet_wrap(~handedness, scales="free")+
+coord_cartesian(ylim=c(0.066, 0.300
+                          )) 
+
+
+```
+
+I excluded all the players with 0 batting average to see who performs better.
+
+Based on the above graph, left handers stand out in batting averages followed by Both handers and  right handers. The average of left handers seem higher of about 0.252 as compared to Both handed batsman of 0.239 and right handed batsman of 0.238.
+
+The performance of L batsman clearly seems higher as compared to the B and R batsman.
+
+I am going to make use of the statistical model test on L and R players using 
+T-Test for 2 Independent Means :
+This test is used looking at a numerical variable - for example, avg - and then comparing the averages of two separate populations or groups (e.g., Right and Left).
+
+1. Two independent samples
+2. The two samples should have the same variance
+
+Using a 2- tailed hypothesis test:
+
+The T-value is 3.37612. 
+The P-Value is .000807. 
+  
+
+The result is significant at P less than  0.05.
+
+Hence I can reject the the null hypothesis which asserts that the means of the two samples are identical.From the R graph we have seen that average of L batsman are higher compared to R of same population. 
+
+I also tested the effect size using  Cohen's d that is determined by calculating the mean difference between your two groups, and then dividing the result by the pooled standard deviation.
+
+Cohen's d = (M2 - M1) divide by  SD
+
+(0.238 - 0.252) divide by  0.033 is 0.424242.
+
+The d value is small and indicates that there is a mean difference between both the groups is small. 
+
+This maynot have an impact on winning of a game but can impact the individual ranking and grading of the players.
+
+Hence I conclude that from this dataset Left handed batsman perform better as compared to R and B.
+In practical situation too, this is true which a study article indicated that Lefties are considered best players.
+
+Article: http://www.newsweek.com/science-why-lefties-make-better-baseball-players-92783
+
+
+==========================================================
+
+
+
+
+
+
+
+
+
+
+
+
