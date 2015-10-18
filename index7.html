@@ -28,7 +28,7 @@
               height = 600;
           d3.select('body')
             .append('h2')
-            .text("Top players with Batting Average");
+            ;
 
           var svg = d3.select("body")
             .append("svg")
@@ -64,7 +64,7 @@
         /*
         Order variables for mouse hover
       */
-	     var mySeries = myChart.addSeries( ["handedness"	], dimple.plot.bar);
+	     var mySeries = myChart.addSeries( ["handedness" ], dimple.plot.bar);
 	  	 mySeries.aggregate = dimple.aggregateMethod.avg;
 
 
@@ -108,6 +108,7 @@
       */
           var filterValues = dimple.getUniqueValues(data,
                                                     "handedness");
+
           myLegend.shapes.selectAll("rect")
             .on("click", function (e) {
               var hide = false;
@@ -139,8 +140,14 @@
       </script>
   </head>
 <body>
-  <script type="text/javascript">
+ 	<h3 align="center"> Influence of handedness on baseball batting average </h3>
+  	<p style="font-size:100%">Major League Baseball (MLB) is a professional baseball organization that is the oldest of the four major professional sports leagues in the United States and Canada. The below visualization gives the distribution of the players batting averages against handedness. Interactive legend gives an option compare the distribution  between different handedness categories. Hovering over the bars gives information about the data each bar represents. </p>
+
+
+ <script type="text/javascript">
   d3.csv("baseball.csv", draw);
   </script>
+  	<p style="font-size:100%"> L stands for Left Handers; R for Right handers; B for Both handers .</p>
+
 </body>
 </html>

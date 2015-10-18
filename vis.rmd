@@ -14,27 +14,34 @@ library(GGally)
 
 ```
 
-As part of this exercise, I am analyzing the details of baseball players and their batting averages. The sample data consists of 1157 records with below details
+As part of this exercise, Baseball dataset is chosen to understand  the 
+undertsnad the relationship between different parameters based on their 
+correlation .  
 
-.  Name
+The sample data consists of 1157 records .The dataset consists of :
 
-.	Handedness
+Name
 
-.	Average
+Handedness
 
-.	Height
+Average
 
-.	Weight
+Height
 
-.	HR (Home Runs)
+Weight
+
+HR (Home Runs)
 
 In my analysis I created multiple graphs to represent the details like 
 distribution ,relationship of the above parameters.
+
 Graph 1: Distribution by handedness
 
+This grpah is to understand the distribution of Left,right ad both handed 
+batsman. 
 
 
-```{r echo=FALSE, warning=FALSE, fig.width=6,fig.height=3 }
+```{r echo=FALSE, warning=FALSE, fig.width=6,fig.height=5 }
 
 nba <- read.csv("C:/Users/307009747/Desktop/udacity/Visualization/baseball.csv")
 # Default output.
@@ -49,7 +56,7 @@ ggplot(data= nba, aes(x=as.factor(nba$handedness),
         axis.title=element_text(size=10,face="bold"))+
    xlab("handedness") + ylab("Percentage") + 
   scale_y_continuous(labels = percent)+
-   scale_fill_discrete(name = "handedness by color")+
+    scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99"))+
   ggtitle('Histogram of Handedness') +
   theme(plot.title = element_text(size = 12,colour="Dark blue"))
 
@@ -60,29 +67,33 @@ ggplot(data= nba, aes(x=as.factor(nba$handedness),
 From the above graph it shows that out of 1157 players the majority (64%) of players are right handed.27% of them are left-handed and remaining are 9% are both.
 
 
-```{r  echo=FALSE, warning=FALSE ,fig.height=5}
+To understand the relation between parameters correlation graph is chosen.
+My interest id to find out the individual performance of a baseball playes and how the different parameters are influencing the same.
 
-ggpairs(nba[, 2:6], lower=list(continuous="smooth", params=c(colour="blue")),
-  diag=list(continuous="bar", params=c(colour="blue")), 
-  upper=list(params=list(corSize=3)), axisLabels='show')
-```
-
-With this exercise I am going to find out the individual performance of a baseball player and how the different parameters are influencing the same.
 Individual performance can be assessed by checking the batting average.
 
-From the corelation graph:
+Correlation graph is used to assess the relationship between the parameters.
+
+```{r  echo=FALSE, warning=FALSE ,fig.height=5}
+
+ggpairs(nba[, 2:6], lower=list(continuous="smooth", 
+                               params= c(binwidth = 1)),
+  diag=list(continuous="bar", params=c(colour="blue")), 
+  upper=list(params=list(corSize=3)), axisLabels='show')
+
+```
 
 
-Height vas Batting Average: -0.374
+Height vs Batting Average: -0.374
 
 There seems to be slight correlation snce the value is lesser than -0.3 which is in the ideal range (>0.3 and less than -0.3)
 
-```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+```{r echo=FALSE, warning=FALSE,fig.width=8,fig.height=5 }
   
 
 ggplot(data = nba, 
        aes(y = avg, x = height, color = factor(handedness))) +
-   geom_point(alpha = 1/2, position = position_jitter(h = 0), size = 4) +
+   geom_jitter(size=3) +
      coord_cartesian(ylim=c(0, 0.330
                           ), xlim=c(65,75)) +
    scale_color_brewer(type='qual') +
@@ -92,6 +103,8 @@ ggplot(data = nba,
         axis.title=element_text(size=10,face="bold"))+
    ggtitle('Batting Average vs. Height correlation by Handedness') +
   theme(plot.title = element_text(size = 12,colour="Dark blue"))
+
+
 ```
 
 From the above graph the correlation factor between height and Batting average is -0.374. Even though this is within the acceptable range, in reality we see there is no linear relationship. This could be due to the fact that a small change in the height need not have any impact on the batting average.Since no linear relationship in this , I can exclude the relationship to reach  any valid conclusions. 
@@ -104,22 +117,25 @@ I took the other parameter Batting Average vs Home Runs
 
 From the correlation factor there seems to be no significant relation between them. The graph shows the same.
 
-```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+```{r echo=FALSE, warning=FALSE,fig.width=8,fig.height=5 }
  mean(nba$avg)
 
 ggplot(data = subset(nba, avg > 0.186), 
-       aes(y = avg, x = HR, color = factor(handedness))) +
-   geom_point(alpha = 1/2, position = position_jitter(h = 0), size = 5) +
+       aes(y = HR, x = avg, color = factor(handedness))) +
+   geom_jitter(size = 3) +
   facet_wrap(~handedness, scales="free")+
-   coord_cartesian(ylim=c(0.186, 0.330
-                          ), xlim=c(0,565)) +
-   scale_color_brewer(type='qual') +
+   coord_cartesian(xlim=c(0.186, 0.330
+                          ), ylim=c(0,565)) +
+   scale_color_brewer(palette="Set1") +
    xlab('Home Runs') +
    ylab('Batting Average') + 
    theme(axis.text=element_text(size=10),
         axis.title=element_text(size=10,face="bold"))+
    ggtitle('Batting Average vs. Home Runs correlation by Handedness') +
   theme(plot.title = element_text(size = 12,colour="Dark blue"))
+
+  
+
 
 ```
 
@@ -160,13 +176,15 @@ In my analysis since I am interested in knowing the batting average of an indivi
 
 Handedness vs Batting Average 
 
-```{r echo=FALSE, warning=FALSE,fig.width=6,fig.height=3 }
+```{r echo=FALSE, warning=FALSE,fig.width=10,fig.height=5 }
 
 
 ggplot(subset(nba, avg > 0), aes(x = handedness, y = avg,fill=handedness)) +
   geom_boxplot(outlier.size=NA)+facet_wrap(~handedness, scales="free")+
-coord_cartesian(ylim=c(0.066, 0.300
-                          )) 
+coord_cartesian(ylim=c(0.115, 0.300
+                          )) +
+ggtitle('Handedness vs Batting Average') +
+  theme(plot.title = element_text(size = 12,colour="Dark blue"))
 
 
 ```
@@ -192,7 +210,7 @@ The P-Value is .000807.
 
 The result is significant at P less than  0.05.
 
-Hence I can reject the the null hypothesis which asserts that the means of the two samples are identical.From the R graph we have seen that average of L batsman are higher compared to R of same population. 
+Hence I can reject the the null hypothesis which asserts that the means of the two samples are identical.From the R graph I saw that average of L batsman are higher compared to R of same population. 
 
 I also tested the effect size using  Cohen's d that is determined by calculating the mean difference between your two groups, and then dividing the result by the pooled standard deviation.
 

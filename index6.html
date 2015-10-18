@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+    <script type="text/javascript">
+      function draw(data) {
+
+          "use strict";
+          var margin = 75,
+              width = 700 - margin,
+              height = 600 - margin;
+
+
+          var svg = d3.select("body")
+            .append("svg")
+              .attr("width", width + margin)
+              .attr("height", height + margin)
+            .append('g')
+                .attr('class','chart');
+
+          var myChart = new dimple.chart(svg, data);
+
+          var xAxis = myChart.addMeasureAxis("x", "avg");
+          xAxis.tickFormat = "g"; //ensures correct number of decimal places for batting averages
+          xAxis.title = "Batting Average";
+          var yAxis = myChart.addMeasureAxis("y", "HR");
+          yAxis.title = "Home Runs";
+
+          myChart.addSeries(["name", "handedness"], dimple.plot.bubble)
+          myChart.addLegend(240, 10, 330, 20, "right");
+          myChart.draw();
+          // use d3 to select all points and change their size and opacity
+          // initially struggled to get size to change, but found out about using setTimeout here:
+          // http://stackoverflow.com/questions/22836594/dimple-js-change-radius-of-circles
+          setTimeout(function () {
+            d3.selectAll('circle')
+              .attr("r", 3)
+              .attr("opacity", "0.6");
+          }, 100);
+        };
+      </script>
+</head>
+
+<body>
+  <h1>Baseball Player Performance</h1>
+  <script type="text/javascript">
+    d3.csv("baseball.csv", draw);
+  </script>
+</body>
+
+</html>
