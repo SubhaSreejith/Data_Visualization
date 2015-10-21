@@ -2,9 +2,9 @@ Summary:
 
 I chose the Baseball dataset to build an effective visualization from a list of over 1100 Players. 
 
-In order to uncover facts from this dataset, the reviewer is presented with a graph of handedness vs batting average to substantiate my hypothesis that on an average left handed batsmen have a higher batting average than right handed and switch batsman. 
+In order to uncover facts from this dataset, the reviewer is presented with a graph of handedness vs batting average to substantiate my hypothesis that on an average left handed batsmen have a better batting average than right handed and switch batsman. 
 
-I also compared the avg vs the home runs by handedness and it seems majority of the people who have batting average close to the overall batting average (0.245) have scored less home runs. L,B or R  cannot be claimed good performers based on this.
+I also compared the avg vs the home runs by handedness and it seems majority of the people who have batting average close to the overall batting average have scored less home runs. L,B or R  cannot be claimed good performers based on this.
 
 In the box graph the average of L is  better  than B and R .The outliers are removed in the boxplot depicted using R and d3.
 
@@ -53,23 +53,35 @@ I showed my work and received few more inputs and asked me to look at more data 
 Design change 2:
 
 I eliminated the 0 batting average players as after research I felt these 0 average people might also be the pitchers who rarely get a chance to play.In Major League Baseball, the designated hitter is a hitter who does not play a position, but instead fills in the batting order for the pitcher.Hence the 0 batting averages might be for pitchers.
-Their average doesnot have any significant role as they do not even bat.In my analysis since I am interested in knowing the batting average of an individual to analyse their performance and to which category of handedness they belong. Since I am interested in knowing actual hit on the bat and so excluded the 0 batters from my data and was able to say that the average of left handers seem higher of about 0.252 as compared to Both handed batsman of 0.239 and right handed batsman of 0.238.
+Their average doesnot have any significant role as they do not even bat.In my analysis since I am interested in knowing the batting average of an individual to analyse their performance and to which category of handedness they belong. Since I am interested in knowing actual hit on the bat and so excluded the 0 batters from my data and was able to say that the average of left handers seem higher of about 0.252 as compared to Both handed batsman of 0.240 and right handed batsman of 0.238.
 
 Feedback 3:
 
 Charlie liked the analysis and also suggested that I look in to the statistical test . She asked me to think if there is a meaningful practical difference as well as a statistical one? Would it be worth also testing for effect size?
 
+Feedback from reviewers:
+
+I submitted my work on the discussion forum and received few feedbacks on the improvements on d3. Some of them are to include a small overview of plot,expand abbreviations used, change the axis labels, Range the values from 0.
+
 
 Index.html Final story:
 
+I worked on all the comments and made modification to the graphs.From the R plots , I was able to compare all the parameters and finally arrive at boxplot as the basis to deliver the final plot in d3.
+
+Based on this story I depicted the final index.html on Handedness vs batting average. 
+
 The population contains majority of records for R batsman(64%) followed by L batsman(27%) and switch (9%)
 
-I plotted a graph of Average of Batting averages against Handedness and observed Average of L batsman  is significatly above the average of R players and B players
+I plotted a graph of Average of Batting averages against Handedness and observed Average of L batsman  is  slightly above than that of R players and B players.I also compared their Home Runs and majority of them have their home runs below 150 which exhibited a normal distribution.
+
+Plotly was used in R to re-evaluate my understanding
 
 https://plot.ly/~SubhaSreejith/35/batting-average-vs-handedness.embed.
 
+https://plot.ly/~SubhaSreejith/49/batting-average-vs-home-runs.embed
+
 The Left handed batsman exhibited an average of 0.252
-The Switch batsman exhibited an average of 0.239
+The Switch batsman exhibited an average of 0.240
 Right Handed batsman exhibited 0.238
 
 I rejected the the null hypothesis which asserts that the means of the two samples are identical.From the R graph I saw that average of L batsman are higher compared to R of same population. 

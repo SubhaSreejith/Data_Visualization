@@ -71,8 +71,9 @@
         /*
         Order variables for mouse hover
       */
-	     var mySeries = myChart.addSeries(["name", "handedness"], dimple.plot.bubble);
+	     var mySeries = myChart.addSeries(["name","height","weight","HR","handedness"], dimple.plot.bubble);
 
+		mySeries.aggregate = dimple.aggregateMethod.avg;
 
           var myLegend = myChart.addLegend(180, 10, 860, 20, "right");
 
