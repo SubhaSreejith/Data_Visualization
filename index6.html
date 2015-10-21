@@ -103,20 +103,23 @@
                 }
               });
               if (hide) {
-                d3.select(this).style("opacity", 0.2);
-              } else {
-                newFilters.push(e.aggField.slice(-1)[0]);
                 d3.select(this).style("opacity",
                                       0.8);
-              }
+              } else {
+                newFilters.push(e.aggField.slice(-1)[0]);
+                              }
               filterValues = newFilters;
               myChart.data = dimple.filterData(data,
                                                "handedness",
                                                filterValues);
-              myChart.draw(600);
+              myChart.draw();
             });
 
-
+setTimeout(function () {
+            d3.selectAll('circle')
+              .attr("r", 3)
+              .attr("opacity", "0.6");
+          }, 100);
 
         };
       </script>

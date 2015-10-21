@@ -44,12 +44,12 @@
         Dimple.js Chart construction code
       */
           var myChart = new dimple.chart(svg, data);
-          myChart.setBounds(100, 10, 800, 220)
-
+          myChart.setBounds(100, 50, 800, 220)
 
 
 		var x = myChart.addCategoryAxis("x","handedness")
-		x.title = "Handedness[Left,Right,Both]";
+
+		x.title = "Handedness of Players"
 
 
           var y = myChart.addMeasureAxis("y","avg")
@@ -85,7 +85,7 @@
 
     	  y.tickFormat = ',.003f';
 		  y.overrideMin = 0
-    	  y.overrideMax = 0.280;
+    	  y.overrideMax = 0.300;
 
 
 		  x.fontSize = "12px";
@@ -102,7 +102,7 @@
 	  	 mySeries.aggregate = dimple.aggregateMethod.avg;
 
 
-          var myLegend = myChart.addLegend(180, 10, 860, 20, "right");
+          var myLegend = myChart.addLegend(180, 10, 900, 20, "right");
 
           myLegend.fontFamily = 'Garamond';
           myLegend.fontSize = "15px";
