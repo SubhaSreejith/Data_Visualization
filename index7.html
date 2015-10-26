@@ -113,37 +113,6 @@
       */
           myChart.legends = [];
 
-       /*
-        Legend values/design
-      */
-          var filterValues = dimple.getUniqueValues(data,
-                                                    "handedness");
-
-          myLegend.shapes.selectAll("rect")
-            .on("click", function (e) {
-              var hide = false;
-              var newFilters = [];
-              filterValues.forEach(function (f) {
-                if (f === e.aggField.slice(-1)[0]) {
-                  hide = true;
-                } else {
-                  newFilters.push(f);
-                }
-              });
-              if (hide) {
-                d3.select(this).style("opacity", 0.2);
-              } else {
-                newFilters.push(e.aggField.slice(-1)[0]);
-                d3.select(this).style("opacity",
-                                      0.8);
-              }
-              filterValues = newFilters;
-              myChart.data = dimple.filterData(data,
-                                               "handedness",
-                                               filterValues);
-              myChart.draw(600);
-            });
-
 
 
         };
